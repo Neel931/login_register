@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>register</title>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: linear-gradient(to right, #83c453, #36e75e);
+      }
+      .box {
+        height: 400px;
+        width: 40vh;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        box-shadow: 2px 2px 50px grey;
+        border: 2px solid black;
+        border-radius: 20px;
+        padding: 50px;
+        gap: 25px;
+      }
+      button {
+        width: 30%;
+        background-color: aliceblue;
+        color: black;
+        padding: 10px;
+      }
+      button:hover {
+        color: white;
+        background-color: black;
+      }
+       .show{
+        display: none;
+      }
+      a{
+        text-decoration: none;
+        color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="box">
+        <h1>login page</h1>
+
+        Enter Email:<input type="email" placeholder="Enter Email" id="email" />
+        Enter Password:<input type="password" id="password" />
+
+        <button id="login">login</button>
+        <a href="index.html" class="show">Home page</a>
+      </div>
+    </div>
+
+    <script>
+      let email = document.getElementById("email");
+      let password = document.getElementById("password");
+      let loginbtn = document.getElementById("login");
+      let arr = [{}];
+
+      loginbtn.addEventListener("click", () => {
+        arr = JSON.parse(localStorage.getItem("users"));
+
+        arr.forEach(function check(el) {
+          if (el.email == email.value && el.password == password.value) {
+            console.log(el.email);
+            alert("login sucessful! you can go home page");
+            let a=document.querySelector("a");
+            a.classList.remove("show")
+          }
+        });
+        
+        email.value = "";
+        password.value = "";
+      });
+    </script>
+  </body>
+</html>

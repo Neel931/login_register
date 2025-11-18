@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>home</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .container {  
+        height: 100vh;
+        background-image: linear-gradient(to right, #83c453, #36e75e);
+      }
+     .table{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        text-align: center;
+        border: 2px solid black;
+        grid-gap: 20px;
+        
+     }
+    </style>
+  </head>
+  <body>
+    <h1>This home page show all users : <a href="login.html">logout</a></h1>
+    
+    <div class="container" id="container">
+      <div class="table">
+        <p>USER NAME</p>
+        <p>EMAIL</p>
+        <p>PASSWORD</p>
+        <p>EDIT</p>
+        <p>DELETING</p>
+      </div>
+
+    </div>
+
+    <script>
+      let arr = JSON.parse(localStorage.getItem("users")) || [];
+
+      arr.forEach(function (el) {
+        if (el.email && el.password && el.username) {
+          //   console.log(el.username);
+
+          let box = document.createElement("div");
+          let p = document.createElement("p");
+          let p2 = document.createElement("p");
+          let password = document.createElement("p");
+          let delbtn = document.createElement("button");
+          let edit = document.createElement("button");
+
+          box.classList.add('table');
+
+          p.innerText = el.username;
+          p2.innerText = el.email;
+          password.innerText = el.password;
+          edit.innerText = "Edit";
+          delbtn.innerText = "Delete";
+
+          let container2 = document.getElementById("container");
+          //   console.log(container2);
+
+          box.append(p, p2, password, edit, delbtn);
+          container2.appendChild(box);
+
+          //   editig user
+          edit.addEventListener("click", (arr) => {
+            let newUsername = prompt("enter new usename");
+            let newemail = prompt("Enter new EMail");
+            let newPassword = prompt("Enter new passwrod");
+            // console.log(arr);
+            // window.open("register.html", 'register.html');
+            p.innerText = newUsername;
+            p2.innerText = newemail;
+            password.innerText =newPassword;
+          });
+
+          // deliting user
+          delbtn.addEventListener("click", (e) => {
+            let pardel = delbtn.parentElement;
+            //    console.log(pardel);
+            //    console.log(p2.innerText);
+
+            arr = arr.filter((el) => {
+              if (el.email != p2.innerText) {
+                console.log(el.email);
+                console.log(p2.innerText);
+
+                return el;
+              }
+            });
+            localStorage.setItem("users", JSON.stringify(arr));
+            pardel.remove();
+          });
+        }
+      });
+
+      function logout(){
+        
+      }
+    </script>
+  </body>
+</html>
