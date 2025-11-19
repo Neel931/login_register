@@ -6,46 +6,84 @@
     <title>register</title>
 
     <style>
-      body {
+      * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
       }
+
       .container {
+        height: 100vh;
+        width: 100vw;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        background-image: linear-gradient(to right, #83c453, #36e75e);
+        background-color: #3a1a5c;
+        overflow: hidden;
       }
+
       .box {
-        height: 400px;
-        width: 40vh;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        box-shadow: 2px 2px 50px grey;
-        border: 2px solid black;
-        border-radius: 20px;
-        padding: 50px;
-        gap: 25px;
+        background: #fff;
+        padding: 30px 40px;
+        width: 350px;
+        border-radius: 12px;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        text-align: left;
       }
-      button {
-        width: 30%;
-        background-color: aliceblue;
-        color: black;
-        padding: 10px;
+
+      .box h1 {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 20px;
+        color: #333;
       }
-      button:hover {
-        color: white;
-        background-color: black;
+
+      .box input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        outline: none;
+        font-size: 15px;
+        transition: 0.3s;
       }
-       .show{
+
+      .box input:focus {
+        border-color: #6a11cb;
+        box-shadow: 0 0 5px rgba(106, 17, 203, 0.4);
+      }
+
+      #login {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        background: #6a11cb;
+        color: #fff;
+        font-size: 17px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      #login:hover {
+        background: #4b0fa4;
+      }
+
+      .box a {
+        margin-top: 15px;
+        text-align: center;
+        text-decoration: none;
+        color: #2575fc;
+        font-weight: bold;
+      }
+      .show {
         display: none;
       }
-      a{
-        text-decoration: none;
-        color: black;
+
+      .box a:hover {
+        color: #6a11cb;
       }
     </style>
   </head>
@@ -58,6 +96,7 @@
         Enter Password:<input type="password" id="password" />
 
         <button id="login">login</button>
+        <a href="register.html">Register Now</a>
         <a href="index.html" class="show">Home page</a>
       </div>
     </div>
@@ -66,20 +105,27 @@
       let email = document.getElementById("email");
       let password = document.getElementById("password");
       let loginbtn = document.getElementById("login");
-      let arr = [{}];
+      let arr = [];
 
       loginbtn.addEventListener("click", () => {
-        arr = JSON.parse(localStorage.getItem("users"));
+        arr = JSON.parse(localStorage.getItem("users")) || [];
+
+        let correct = false;
 
         arr.forEach(function check(el) {
           if (el.email == email.value && el.password == password.value) {
+            correct = true;
             console.log(el.email);
-            alert("login sucessful! you can go home page");
-            let a=document.querySelector("a");
-            a.classList.remove("show")
+            alert("login sucessful! Redirecting Home Page");
+            let a = document.querySelector("a");
+            a.classList.remove("show");
+            window.location.href = "index.html";
           }
         });
-        
+
+        if (correct == false) {
+          alert("Incorrect email or password");
+        }
         email.value = "";
         password.value = "";
       });

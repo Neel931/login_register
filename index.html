@@ -5,28 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>home</title>
     <style>
-      body {
+      * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
       }
-      .container {  
+
+      .container {
         height: 100vh;
-        background-image: linear-gradient(to right, #83c453, #36e75e);
+        width: 100%;
+        background-image: linear-gradient(to right, #b273f4, #5d2a93);
+        padding: 30px;
       }
-     .table{
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+      h1 {
         text-align: center;
-        border: 2px solid black;
-        grid-gap: 20px;
-        
-     }
+        padding: 20px;
+        background: #fff;
+        color: #333;
+        font-size: 28px;
+        margin-bottom: 20px;
+        box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 a {
+        text-decoration: none;
+        color: #2575fc;
+        margin-left: 10px;
+      }
+
+      h1 a:hover {
+        color: #6a11cb;
+      }
+
+      .table {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        background: #fff;
+        padding: 15px 10px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .table p {
+        padding: 12px 5px;
+        border-bottom: 2px solid #ddd;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        background: #fff;
+        padding: 10px 5px;
+        margin-top: 10px;
+        border-radius: 8px;
+        box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .row p {
+        padding: 8px 0;
+      }
+
+      .edit-btn,
+      .delete-btn {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .edit-btn {
+        background-color: #ffc107;
+        color: #222;
+      }
+
+      .delete-btn {
+        background-color: #f44336;
+        color: white;
+      }
+
+      .edit-btn:hover {
+        background-color: #e0a800;
+      }
+      .delete-btn:hover {
+        background-color: #d32f2f;
+      }
     </style>
   </head>
   <body>
     <h1>This home page show all users : <a href="login.html">logout</a></h1>
-    
+
     <div class="container" id="container">
       <div class="table">
         <p>USER NAME</p>
@@ -35,12 +110,11 @@
         <p>EDIT</p>
         <p>DELETING</p>
       </div>
-
     </div>
 
     <script>
       let arr = JSON.parse(localStorage.getItem("users")) || [];
-
+      
       arr.forEach(function (el) {
         if (el.email && el.password && el.username) {
           //   console.log(el.username);
@@ -52,7 +126,9 @@
           let delbtn = document.createElement("button");
           let edit = document.createElement("button");
 
-          box.classList.add('table');
+          box.classList.add("table");
+          edit.classList.add("edit-btn");
+          delbtn.classList.add("delete-btn");
 
           p.innerText = el.username;
           p2.innerText = el.email;
@@ -67,15 +143,34 @@
           container2.appendChild(box);
 
           //   editig user
-          edit.addEventListener("click", (arr) => {
+          edit.addEventListener("click", (el) => {
             let newUsername = prompt("enter new usename");
             let newemail = prompt("Enter new EMail");
             let newPassword = prompt("Enter new passwrod");
-            // console.log(arr);
-            // window.open("register.html", 'register.html');
+
+
+            arr = arr.filter(function (user) {
+                console.log(user.email,p2.innerHTML);
+                
+              if (user.email !== p2.innerText) {
+                return true; 
+              } else {
+                return false; 
+              }
+            });
+
+            arr.push({
+              username: newUsername,
+              email: newemail,
+              password: newPassword,
+            });
+
+            localStorage.setItem("users", JSON.stringify(arr));
+
+            // update DOM text
             p.innerText = newUsername;
             p2.innerText = newemail;
-            password.innerText =newPassword;
+            password.innerText = newPassword;
           });
 
           // deliting user
@@ -86,8 +181,8 @@
 
             arr = arr.filter((el) => {
               if (el.email != p2.innerText) {
-                console.log(el.email);
-                console.log(p2.innerText);
+                // console.log(el.email);
+                // console.log(p2.innerText);
 
                 return el;
               }
@@ -98,9 +193,7 @@
         }
       });
 
-      function logout(){
-        
-      }
+      function logout() {}
     </script>
   </body>
 </html>
